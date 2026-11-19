@@ -58,8 +58,8 @@ refLinksErrorLevel = "error"    # a broken ref/relref fails the build
     appendFilePath = true
 
   [params.homeInfoParams]
-    Title = "Hi, I'm Lars"
-    Content = "I write about infrastructure as code, automation, PowerShell and Go."
+    Title = "Hi, I'm Lars Krogh"
+    Content = "I write about infrastructure as code, automation, PowerShell, and Go—sharing practical insights, real-world experiences, and open-source projects focused on building smarter, more reliable infrastructure."
 
   [[params.socialIcons]]
     name = "github"
