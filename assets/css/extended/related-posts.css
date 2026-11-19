@@ -1,0 +1,13 @@
+.related-posts {
+  margin-top: var(--gap);
+}
+
+.related-posts h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.related-posts ul {
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}

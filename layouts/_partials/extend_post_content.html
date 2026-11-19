@@ -1,0 +1,11 @@
+{{- /* Related posts, using Hugo's built-in related content (tags, keywords, date). Overrides PaperMod's empty extension point. */ -}}
+{{- with site.RegularPages.Related . | first 3 }}
+<nav class="related-posts" aria-label="Related posts">
+  <h2>Related posts</h2>
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end }}

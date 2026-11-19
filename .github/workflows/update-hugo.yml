@@ -1,0 +1,72 @@
+name: Update Hugo and PaperMod
+
+on:
+  schedule:
+    - cron: "23 5 1 * *" # 05:23 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  BRANCH: automation/update-hugo
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7.1.0
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Update Hugo version and checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(gh release view --repo gohugoio/hugo --json tagName --jq '.tagName | ltrimstr("v")')"
+          archive="hugo_extended_${version}_linux-amd64.tar.gz"
+          sha256="$(curl -fsSL --retry 3 \
+            "https://github.com/gohugoio/hugo/releases/download/v${version}/hugo_${version}_checksums.txt" | awk -v f="${archive}" '$2 == f { print $1 }')"
+          if [[ ! "${sha256}" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "::error::No checksum found for ${archive}"
+            exit 1
+          fi
+          sed -i -E -e "s/^HUGO_VERSION=.*/HUGO_VERSION=${version}/" -e "s/^HUGO_SHA256=.*/HUGO_SHA256=${sha256}/" .github/hugo-version.env
+          echo "HUGO_NEW_VERSION=${version}" >> "$GITHUB_ENV"
+
+      - name: Update PaperMod
+        run: go get github.com/adityatelange/hugo-PaperMod@master
+
+      - name: Open or update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "Hugo and PaperMod are already up to date."
+            exit 0
+          fi
+          git diff --stat
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "${BRANCH}"
+          git commit -am "Update Hugo to ${HUGO_NEW_VERSION} and PaperMod to latest"
+          git push --force origin "${BRANCH}"
+          if ! gh pr view "${BRANCH}" --json state --jq '.state' 2>/dev/null | grep -q OPEN; then
+            gh pr create --base main --head "${BRANCH}" --title "Update Hugo and PaperMod" --body "Automated update of the pinned Hugo Extended release (\`.github/hugo-version.env\`) and the PaperMod module (\`go.mod\`/\`go.sum\`). Review the Hugo release notes for breaking changes before merging: https://github.com/gohugoio/hugo/releases"
+          fi
+          gh workflow run hugo.yml --ref "${BRANCH}"

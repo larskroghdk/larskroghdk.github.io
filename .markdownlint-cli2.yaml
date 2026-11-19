@@ -1,0 +1,18 @@
+# https://github.com/DavidAnson/markdownlint-cli2
+config:
+  default: true
+  MD013: false            # long lines: prose and URLs are not wrapped
+  MD010:
+    code_blocks: false    # Go code is tab-indented (gofmt)
+  MD025:
+    front_matter_title: "" # Hugo renders the front matter title; content starts at h2
+  MD041: false            # first line is front matter, not a heading
+
+globs:
+  - "**/*.md"
+
+ignores:
+  - "public/**"
+  - "public-linkcheck/**"
+  - "resources/**"
+  - ".htmltest/**"

@@ -1,0 +1,8 @@
+# Internal link and asset check for the generated site (https://github.com/wjdp/htmltest).
+# CI builds the site with --baseURL / into this directory so every link is checked as internal.
+DirectoryPath: public-linkcheck
+CheckExternal: false
+CheckInternalHash: true
+IgnoreDirectoryMissingTrailingSlash: true
+IgnoreAltMissing: false
+OutputDir: .htmltest
