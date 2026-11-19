@@ -2,16 +2,18 @@
 title: "Introducing packer-plugin-windows-optimize: Automated Windows Optimization for HashiCorp Packer"
 description: "Automating Microsoft Windows optimization during VM template builds with HashiCorp Packer."
 date: 2026-11-19
-draft: true # set to false once v1.0.0 is published on the Releases page
+draft: false
 tags: ["packer", "windows", "automation", "vmware", "azure", "devops"]
 categories: ["Infrastructure Automation"]
 keywords: ["packer-plugin-windows-optimize", "packer windows plugin", "windows vm template optimization", "hashicorp packer windows optimization"]
 ---
 
-Today I'm releasing version 1.0.0 of
-[packer-plugin-windows-optimize](https://github.com/larskroghdk/packer-plugin-windows-optimize),
-a Packer provisioner that applies a small, validated set of Windows
-optimizations while a VM template is being built.
+Today I'm making
+[packer-plugin-windows-optimize](https://github.com/larskroghdk/packer-plugin-windows-optimize)
+public: a Packer provisioner that applies a small, validated set of Windows
+optimizations while a VM template is being built. The source is available
+now and builds with a single `go build`. The first tagged release, v1.0.0,
+is being prepared and will be installable with `packer init`.
 
 <!--more-->
 
@@ -97,20 +99,27 @@ report tells you a restart is still needed.
 
 ## Getting started
 
-The plugin runs with Packer on Windows. Release binaries are built for
+The plugin runs with Packer on Windows, and the release build targets
 Windows amd64 and arm64. The communicator must be `winrm`, with an elevated
 administrator session.
 
-```hcl
-packer {
-  required_plugins {
-    windows-optimize = {
-      source  = "github.com/larskroghdk/windows-optimize"
-      version = ">= 1.0.0"
-    }
-  }
-}
+Until v1.0.0 is on the
+[Releases](https://github.com/larskroghdk/packer-plugin-windows-optimize/releases)
+page, build it from source. You need Go 1.26:
 
+```powershell
+git clone https://github.com/larskroghdk/packer-plugin-windows-optimize.git
+cd packer-plugin-windows-optimize
+go build -o packer-plugin-windows-optimize.exe .
+packer plugins install --path packer-plugin-windows-optimize.exe github.com/larskroghdk/windows-optimize
+```
+
+A local build reports version `1.0.0-dev`, which a `version = ">= 1.0.0"`
+constraint doesn't accept. Leave `windows-optimize` out of
+`required_plugins` while you use it. The installed plugin is still found by
+its provisioner name:
+
+```hcl
 build {
   sources = ["source.hyperv-vmcx.windows"]
 
@@ -138,10 +147,27 @@ packer validate .
 packer build -var-file=ws2022.pkrvars.hcl -var "winrm_password=$env:WINRM_PASSWORD" .
 ```
 
+`packer init` installs the builder plugins your template declares.
 Configuration is checked in `packer validate`. A typo in an `include` or
 `exclude` pattern matches no optimization, and that is an error rather than a
 silent no-op. The complete Hyper-V template is in
 [examples/hyperv](https://github.com/larskroghdk/packer-plugin-windows-optimize/tree/main/examples/hyperv).
+It already pins the release, so remove its `windows-optimize` entry from
+`required_plugins` while you use a source build.
+
+Once v1.0.0 is released, pin it instead and let `packer init` download and
+checksum-verify it:
+
+```hcl
+packer {
+  required_plugins {
+    windows-optimize = {
+      source  = "github.com/larskroghdk/windows-optimize"
+      version = ">= 1.0.0"
+    }
+  }
+}
+```
 
 The report is ordinary JSON, so reviewing it, or failing a pipeline on it,
 takes a few lines of PowerShell:
