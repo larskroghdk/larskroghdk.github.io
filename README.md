@@ -49,7 +49,7 @@ Actions are pinned to commit SHAs. The workflow token is read-only except for `p
 | Tool | Why | Version |
 | --- | --- | --- |
 | Hugo **Extended** | Builds the site | The version in [`.github/hugo-version.env`](.github/hugo-version.env) (0.158.0 minimum) |
-| Go | Hugo Modules download PaperMod through Go | 1.24 or later |
+| Go | Hugo Modules download PaperMod through Go | 1.26 or later (the version in `go.mod`; CI installs it from there) |
 | Git | Hugo Modules and `.Lastmod` from git history | any recent |
 | Node.js (optional) | Run markdownlint locally | LTS |
 
