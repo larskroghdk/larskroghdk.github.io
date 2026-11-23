@@ -11,9 +11,8 @@ keywords: ["packer-plugin-windows-harden", "packer windows hardening", "microsof
 Today I'm making
 [packer-plugin-windows-harden](https://github.com/larskroghdk/packer-plugin-windows-harden)
 public: a Packer provisioner that applies the Microsoft security baseline
-for the guest's Windows release while the image is being built. The source
-is available now. The first tagged release, v0.1.0, is being prepared and
-will be installable with `packer init`.
+for the guest's Windows release while the image is being built. The first
+release, v0.1.0, is out and installs with `packer init`.
 
 <!--more-->
 
@@ -112,25 +111,21 @@ than before. Otherwise the build fails.
 ## Getting started
 
 The communicator must be `winrm`, with an elevated administrator session.
-The release build targets Windows, Linux and macOS, so Packer can run on
-any of them.
-
-Until v0.1.0 is on the
-[Releases](https://github.com/larskroghdk/packer-plugin-windows-harden/releases)
-page, build it from source. You need Go 1.26:
-
-```powershell
-git clone https://github.com/larskroghdk/packer-plugin-windows-harden.git
-cd packer-plugin-windows-harden
-go build -o packer-plugin-windows-harden.exe .
-packer plugins install --path packer-plugin-windows-harden.exe github.com/larskroghdk/windows-harden
-```
-
-A local build reports version `0.1.0-dev`, which a `version = ">= 0.1.0"`
-constraint doesn't accept, so leave `windows-harden` out of
-`required_plugins` while you use it. A dry run first, then the real run:
+The release has binaries for Windows, Linux and macOS, so Packer can run on
+any of them. It's published on GitHub with signed checksums, so pin it in
+`required_plugins` and let `packer init` download and verify it. A dry run
+first, then the real run:
 
 ```hcl
+packer {
+  required_plugins {
+    windows-harden = {
+      source  = "github.com/larskroghdk/windows-harden"
+      version = ">= 0.1.0"
+    }
+  }
+}
+
 build {
   sources = ["source.azure-arm.windows"]
 
@@ -159,8 +154,7 @@ The repository has complete templates for
 (a Marketplace image, hardened and generalized to a managed image) and
 [vsphere-iso](https://github.com/larskroghdk/packer-plugin-windows-harden/tree/main/examples/vsphere-iso)
 (an unattended install converted to a template), with one variable file per
-baseline. Both pin the release in `required_plugins`. Remove that entry
-while you use a source build:
+baseline. Both pin the release in `required_plugins`:
 
 ```powershell
 packer init .

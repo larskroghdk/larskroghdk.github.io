@@ -85,8 +85,9 @@ installation media, so the plugin doesn't pretend it can undo it.
 
 ## Getting started
 
-The plugin is published on GitHub with signed checksums. The guest needs an
-elevated, 64-bit Windows PowerShell 5.1 session over WinRM.
+The plugin is published on GitHub with signed checksums. The release has
+binaries for Windows, Linux and macOS, so Packer can run on any of them. The
+guest needs an elevated, 64-bit Windows PowerShell 5.1 session over WinRM.
 
 ```hcl
 packer {
@@ -154,8 +155,7 @@ The repository has
 [seven example templates](https://github.com/larskroghdk/packer-plugin-windows-features/tree/main/examples),
 one per purpose: IIS, .NET 3.5 and Hyper-V on Server, .NET 3.5, Hyper-V and
 an optional feature on client, and OpenSSH as a capability. They all
-default to `dry_run = true`. Their `required_plugins` blocks currently pin
-`>= 1.0.0`; change that to `>= 0.1.0` to use the released version.
+default to `dry_run = true`.
 
 ## Restarts
 
