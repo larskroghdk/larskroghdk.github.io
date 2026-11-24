@@ -17,7 +17,7 @@ against a fresh inventory.
 
 <!--more-->
 
-## The problem with feature scripts
+## 💡 The problem with feature scripts
 
 Adding IIS or .NET Framework 3.5 to an image usually starts as one line of
 PowerShell in a provisioner. Then the template has to work on Server Core
@@ -31,7 +31,7 @@ A successful exit code isn't the same as an installed feature. Servicing
 can report success and leave the feature pending a restart, or install it
 without one of the role services you assumed would come along.
 
-## What it does
+## 🧰 What it does
 
 The plugin registers one provisioner, `windows-features`. A run goes like
 this:
@@ -57,7 +57,7 @@ cmdlets return.
 
 A second run finds everything compliant and changes nothing.
 
-## Safety
+## 🛡️ Safety
 
 Removing the wrong feature can take the build down with it, so some
 removals are blocked in code:
@@ -83,7 +83,7 @@ access.
 Removal also has no rollback. Getting a removed feature back may need
 installation media, so the plugin doesn't pretend it can undo it.
 
-## Getting started
+## 🚀 Getting started
 
 The plugin is published on GitHub with signed checksums. The release has
 binaries for Windows, Linux and macOS, so Packer can run on any of them. The
@@ -157,7 +157,7 @@ one per purpose: IIS, .NET 3.5 and Hyper-V on Server, .NET 3.5, Hyper-V and
 an optional feature on client, and OpenSSH as a capability. They all
 default to `dry_run = true`.
 
-## Restarts
+## 🔄 Restarts
 
 `restart_if_required` is `false` by default. When it's on, the plugin
 suppresses the servicing cmdlets' own restarts and issues one itself,
@@ -171,7 +171,7 @@ Without it, a feature that needs a restart is reported as
 `pending_reboot`. That is not the same as usable. Either enable restarts or
 add a `windows-restart` provisioner and run the plugin again to verify.
 
-## The report
+## 📊 The report
 
 The JSON report is written for successful and failed runs. It contains the
 detected system, a summary, the state of every request, side effects
@@ -193,7 +193,7 @@ if (-not $report.validation.passed -or $report.reboot.required) {
 Check `validation.passed`, not just the Packer exit code. With
 `fail_on_error = false` the build can succeed while a request failed.
 
-## Supported Windows versions
+## 🖥️ Supported Windows versions
 
 | OS | Mechanism |
 | --- | --- |
@@ -207,7 +207,7 @@ non-elevated sessions are rejected. What you can install still depends on
 edition, hardware and payload: Hyper-V needs a supported edition and, in a
 VM, nested virtualization.
 
-## Testing status
+## 🧪 Testing status
 
 Go unit tests and a fake guest cover planning, installation and removal,
 idempotency, source errors, partial failures, timeouts, pending restarts
@@ -220,11 +220,11 @@ items in the
 [support documentation](https://github.com/larskroghdk/packer-plugin-windows-features/blob/main/docs/support.md).
 Start with `dry_run = true` on a disposable VM.
 
-## Links
+## 🔗 Links
 
-- [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-features)
-- [Releases](https://github.com/larskroghdk/packer-plugin-windows-features/releases)
-- [Configuration reference](https://github.com/larskroghdk/packer-plugin-windows-features/blob/main/docs/configuration.md)
-- [Troubleshooting](https://github.com/larskroghdk/packer-plugin-windows-features/blob/main/docs/troubleshooting.md)
-- [Issues](https://github.com/larskroghdk/packer-plugin-windows-features/issues)
-- [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-features)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-plugin-windows-features/releases)
+- 📖 [Configuration reference](https://github.com/larskroghdk/packer-plugin-windows-features/blob/main/docs/configuration.md)
+- 📖 [Troubleshooting](https://github.com/larskroghdk/packer-plugin-windows-features/blob/main/docs/troubleshooting.md)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-plugin-windows-features/issues)
+- 📘 [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)

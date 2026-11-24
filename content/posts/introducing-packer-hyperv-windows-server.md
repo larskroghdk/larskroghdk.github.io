@@ -17,7 +17,7 @@ from every step, a JSON manifest and a SHA-256.
 
 <!--more-->
 
-## Why a factory
+## 💡 Why a factory
 
 The plugins I've written so far each do one job: features, optimization,
 hardening, auditing, cleanup. This repository puts them together into one
@@ -29,7 +29,7 @@ that the ISO is the one you approved, refusing to reuse or overwrite
 anything, and checking the finished disk offline before it's called a
 release.
 
-## The pipeline
+## 🏭 The pipeline
 
 One shared HCL2 build covers all three releases. The steps are:
 
@@ -56,7 +56,7 @@ One shared HCL2 build covers all three releases. The steps are:
 A successful `packer build` isn't enough. The wrapper only writes the
 release manifest after the offline check passes.
 
-## Getting started
+## 🚀 Getting started
 
 You need an elevated, dedicated Windows Hyper-V host with Packer 1.16.2,
 the Windows ADK Deployment Tools (`oscdimg` on the PATH), Windows PowerShell
@@ -117,7 +117,7 @@ release, edition, installation type, architecture and language you asked
 for, then creates a newly named VM and disposes of it afterwards. It never
 reuses or removes an existing VM, switch or output directory.
 
-## Security choices
+## 🔐 Security choices
 
 WinRM always uses HTTPS with NTLM. The bootstrap creates a short-lived
 self-signed certificate, so Packer skips certificate validation. That's why
@@ -136,7 +136,7 @@ firewall rule, invalidates the build password and starts Sysprep. The
 sealed image keeps no management listener. Deploy from a copy, with your own
 unattend that sets the password, network and management access.
 
-## Sysprep and offline validation
+## 🔌 Sysprep and offline validation
 
 Sysprep can't run as an ordinary provisioner, because WinRM drops the moment
 generalization starts. The Hyper-V `shutdown_command` schedules a delayed
@@ -150,7 +150,7 @@ hive to a scratch directory, checks for `IMAGE_STATE_GENERALIZE_RESEAL_TO_OOBE`
 and that known build artifacts are gone, and unmounts it. The canonical
 image is never booted.
 
-## Output
+## 📦 Output
 
 Each build gets a unique ID:
 
@@ -163,7 +163,7 @@ With `-ExternalStorage`, a validated image is copied to an existing mounted
 volume or SMB share, into a new directory, and the hash is checked before
 the manifest is copied. Existing destinations are never overwritten.
 
-## Updates and offline packages
+## 📥 Updates and offline packages
 
 The online update stage installs applicable software updates from your
 configured Windows Update or WSUS source, excluding previews, and the final
@@ -178,7 +178,7 @@ installed with WUSA as SYSTEM and followed by a restart. The
 have a snippet that builds the list. Nothing is downloaded or approved
 automatically.
 
-## CI
+## 🤖 CI
 
 Two GitHub workflows are included. `validate.yml` runs the static checks on
 hosted Windows runners for pushes and pull requests. `build.yml` is manual,
@@ -186,7 +186,7 @@ only runs from `main`, requires an explicit authorization input and a
 protected environment, and runs on a dedicated self-hosted Hyper-V runner.
 Pull requests never get access to the live host or the build secret.
 
-## Testing status
+## 🧪 Testing status
 
 The static suite passes 80 checks: PowerShell parsing, answer file XML and
 credential escaping, pipeline invariants, documentation links and full
@@ -199,11 +199,11 @@ entry point for exactly that, and all six combinations are release gates.
 Until they've passed, v0.1.0 is a starting point to build on a disposable
 host, not certified images.
 
-## Links
+## 🔗 Links
 
-- [GitHub repository](https://github.com/larskroghdk/packer-hyperv-windows-server)
-- [Releases](https://github.com/larskroghdk/packer-hyperv-windows-server/releases)
-- [Operations guide](https://github.com/larskroghdk/packer-hyperv-windows-server/blob/main/docs/operations.md)
-- [Plugin audit](https://github.com/larskroghdk/packer-hyperv-windows-server/blob/main/docs/plugin-audit.md)
-- [Issues](https://github.com/larskroghdk/packer-hyperv-windows-server/issues)
-- [HashiCorp Packer Hyper-V builder](https://developer.hashicorp.com/packer/integrations/hashicorp/hyperv/latest/components/builder/iso)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-hyperv-windows-server)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-hyperv-windows-server/releases)
+- 📖 [Operations guide](https://github.com/larskroghdk/packer-hyperv-windows-server/blob/main/docs/operations.md)
+- 📖 [Plugin audit](https://github.com/larskroghdk/packer-hyperv-windows-server/blob/main/docs/plugin-audit.md)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-hyperv-windows-server/issues)
+- 📘 [HashiCorp Packer Hyper-V builder](https://developer.hashicorp.com/packer/integrations/hashicorp/hyperv/latest/components/builder/iso)

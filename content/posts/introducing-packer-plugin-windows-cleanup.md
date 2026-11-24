@@ -16,7 +16,7 @@ healthy and writes a JSON report on the Packer host.
 
 <!--more-->
 
-## Why a cleanup plugin
+## 💡 Why a cleanup plugin
 
 The end of most Windows image builds is a cleanup script that has grown over
 the years. It deletes `C:\Windows\Temp\*`, maybe `SoftwareDistribution`,
@@ -29,7 +29,7 @@ This plugin does the cleanup that's safe and supported, and it refuses the
 rest. What it deletes is limited by fixed roots, by age and by lists you
 write in the template, and every run ends with a report of what it removed.
 
-## What it cleans
+## 🧹 What it cleans
 
 Everything except stale temporary files is off until you turn it on:
 
@@ -53,7 +53,7 @@ log, activation state, firewall rules and the WinRM configuration. Windows
 Update cleanup here means DISM removing superseded components, not resetting
 Windows Update.
 
-## The safety rules
+## 🛡️ The safety rules
 
 Deletion only happens inside fixed roots that the guest works out itself:
 Windows Temp, the Temp folder of real user profiles, and
@@ -88,7 +88,7 @@ One thing it can't do: deleting a credential file isn't secure erasure, and
 it doesn't remove copies in snapshots or host logs. Use short-lived build
 credentials and revoke them as part of the build.
 
-## Getting started
+## 🚀 Getting started
 
 The plugin is published on GitHub with signed checksums, so `packer init`
 can install it. It needs an elevated, native 64-bit Windows PowerShell 5.1
@@ -136,7 +136,7 @@ With `dry_run = true` nothing is deleted, staged or changed; the report
 lists the candidates instead. Read it on a disposable VM, then remove
 `dry_run`.
 
-## Validation
+## ✅ Validation
 
 `validate_system` is on by default. After cleanup it checks that no reboot
 is pending, that updates have finished, that WinRM and RpcSs are running and
@@ -147,7 +147,7 @@ default. `fail_on_error = false` turns ordinary category failures into
 warnings, but never for explicit artifacts, transport errors or the final
 validation.
 
-## The report
+## 📊 The report
 
 The report is written even when the build fails. It has the profile, the
 dry-run flag, timing, OS facts and reboot reasons before and after,
@@ -164,7 +164,7 @@ Recycle Bin, the list is empty rather than invented.
 The report contains file names and servicing diagnostics, so write it to an
 access-controlled directory.
 
-## Supported Windows versions
+## 🖥️ Supported Windows versions
 
 | Guest | Builds |
 | --- | --- |
@@ -177,7 +177,7 @@ older client builds are rejected. Capabilities that are missing on a given
 system, such as the WER Disk Cleanup handler on Server Core, fail the build
 unless you set `unsupported_policy = "skip"`.
 
-## Sysprep
+## 🔌 Sysprep
 
 `sysprep = true` only stages a finalizer script. The provisioner never runs
 Sysprep or shuts down the VM itself, because WinRM disappears the moment
@@ -192,7 +192,7 @@ rejected. My
 uses the plugin with `sysprep = false` and its own finalizer for that
 reason.
 
-## Testing status
+## 🧪 Testing status
 
 The Go tests cover configuration decoding, path validation, OS
 classification, pending reboots, reports and the Sysprep staging rules.
@@ -206,11 +206,11 @@ through OOBE. There's an opt-in integration test for it, but until it has
 run, treat v0.1.0 as something to try on a disposable VM before you rely on
 it.
 
-## Links
+## 🔗 Links
 
-- [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-cleanup)
-- [Releases](https://github.com/larskroghdk/packer-plugin-windows-cleanup/releases)
-- [Configuration reference](https://github.com/larskroghdk/packer-plugin-windows-cleanup/blob/main/docs/configuration.md)
-- [Safety and reports](https://github.com/larskroghdk/packer-plugin-windows-cleanup/blob/main/docs/safety.md)
-- [Issues](https://github.com/larskroghdk/packer-plugin-windows-cleanup/issues)
-- [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-cleanup)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-plugin-windows-cleanup/releases)
+- 📖 [Configuration reference](https://github.com/larskroghdk/packer-plugin-windows-cleanup/blob/main/docs/configuration.md)
+- 📖 [Safety and reports](https://github.com/larskroghdk/packer-plugin-windows-cleanup/blob/main/docs/safety.md)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-plugin-windows-cleanup/issues)
+- 📘 [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
