@@ -17,7 +17,7 @@ is being prepared and will be installable with `packer init`.
 
 <!--more-->
 
-## Why I built it
+## 💡 Why I built it
 
 Every Windows template pipeline I have worked on ended up with the same
 folder: PowerShell scripts that disable hibernation, stop Server Manager from
@@ -34,7 +34,7 @@ questions are the same: what did we change, does it apply to this build of
 Windows, and can it break the build? I wanted those answers in code, inside
 the Packer run, instead of in a script folder and someone's memory.
 
-## What it is
+## 🧰 What it is
 
 `packer-plugin-windows-optimize` registers one provisioner,
 `windows-optimize`. It runs over the WinRM communicator, so it isn't tied to
@@ -48,7 +48,7 @@ sysprep, and it leaves security controls alone. Defender, Windows Update,
 event logging, the firewall and authentication settings are protected in
 code and can't be selected by any profile or `include` pattern.
 
-## Key features
+## ✨ Key features
 
 - **OS detection.** The plugin reads the build number, edition, installation
   type and architecture from the registry and WMI, not from `ProductName`,
@@ -75,7 +75,7 @@ code and can't be selected by any profile or `include` pattern.
 - **Dry run and report.** `dry_run = true` writes the plan without touching
   the guest. Every run, including a failed one, writes a JSON report.
 
-## How it works
+## ⚙️ How it works
 
 The decisions are made in Go. The guest only runs small PowerShell 5.1
 scripts that read or write a single target, with JSON files for input and
@@ -97,7 +97,7 @@ output. A build goes through these steps:
 The plugin never restarts on its own. Without `reboot_if_required`, the
 report tells you a restart is still needed.
 
-## Getting started
+## 🚀 Getting started
 
 The plugin runs with Packer on Windows, and the release build targets
 Windows amd64 and arm64. The communicator must be `winrm`, with an elevated
@@ -186,7 +186,7 @@ Each optimization in the report lists its targets with the `before`,
 `expected` and `after` values, and links to the documentation it is based
 on.
 
-## Why optimize during template creation?
+## ⏱️ Why optimize during template creation?
 
 A setting applied in the template exists on every machine from the first
 boot. A setting applied after deployment depends on a GPO, a configuration
@@ -203,7 +203,7 @@ I make no claims about boot times or benchmark numbers. The point is a
 known, documented and reversible starting state, not a faster number on a
 graph.
 
-## Supported Windows versions
+## 🖥️ Supported Windows versions
 
 | OS | Build | Installation types |
 | --- | --- | --- |
@@ -227,7 +227,7 @@ untested. The
 [testing documentation](https://github.com/larskroghdk/packer-plugin-windows-optimize/blob/main/docs/testing.md)
 lists exactly what has been verified.
 
-## Roadmap
+## 🗺️ Roadmap
 
 There are no dates attached, but the
 [research notes](https://github.com/larskroghdk/packer-plugin-windows-optimize/blob/main/docs/research.md#remaining-opportunities)
@@ -247,13 +247,13 @@ rollback on real VMs, and ARM64. The catalog will stay small. A new
 optimization has to be documented by Microsoft, reversible, verifiable and
 safe for WinRM.
 
-## Try it
+## 🔗 Try it
 
 Start with `dry_run = true` on a disposable VM, read the report, and then
 decide what to apply. If you build vSphere or Azure templates with it, I'd
 like to hear how it behaves.
 
-- [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-optimize)
-- [Releases](https://github.com/larskroghdk/packer-plugin-windows-optimize/releases)
-- [Issues](https://github.com/larskroghdk/packer-plugin-windows-optimize/issues)
-- [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-optimize)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-plugin-windows-optimize/releases)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-plugin-windows-optimize/issues)
+- 📘 [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)

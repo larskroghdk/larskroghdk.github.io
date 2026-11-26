@@ -16,7 +16,7 @@ touches the firewall or restarts Windows.
 
 <!--more-->
 
-## Why a separate audit
+## 💡 Why a separate audit
 
 [packer-plugin-windows-harden]({{< relref "posts/introducing-packer-plugin-windows-harden" >}})
 already verifies every setting it applies and writes a report. So why
@@ -32,7 +32,7 @@ compares what it finds with the baseline.
 That also means it works on its own. You can point it at an image hardened
 by Group Policy, a script or by hand, and get the same report.
 
-## What it checks
+## 🔍 What it checks
 
 The baselines are an exact, byte-for-byte snapshot of the six baseline files
 in windows-harden, pinned to a source commit and with a SHA-256 for each
@@ -73,7 +73,7 @@ not runtime health: a Defender policy can be set while Defender itself is
 broken. And a compliant image doesn't prove that domain Group Policy won't
 change things after it joins a domain.
 
-## Getting started
+## 🚀 Getting started
 
 The plugin is published on GitHub with signed checksums, so `packer init`
 can install it. It needs an elevated, 64-bit Windows PowerShell 5.1 session
@@ -123,7 +123,7 @@ The repository also has a complete
 that audits an existing VM, which is the quickest way to see what a report
 looks like.
 
-## Failing a build on the result
+## ⛔ Failing a build on the result
 
 By default checkup only reports. Four options turn the report into a gate:
 
@@ -152,7 +152,7 @@ the point of an independent audit. A percentage threshold, or a review of
 exactly which controls fail, works better than `fail_on_noncompliance`
 there.
 
-## The report
+## 📊 The report
 
 The report has the plugin and baseline version, the SHA-256 of the exact
 baseline file used, the source commit, the domain profile, timing, totals
@@ -175,7 +175,7 @@ The report is written to a temporary file next to the target and renamed
 into place, so a pipeline never reads half a report. It contains no
 credentials or session data, and raw guest exception text is left out.
 
-## Testing status
+## 🧪 Testing status
 
 Every one of the 2,187 controls and the 18 non-domain-joined overrides is
 exercised in tests for matching values, mismatches, missing configuration,
@@ -186,10 +186,10 @@ What hasn't been run yet is a live audit against real Windows VMs. There's
 an opt-in integration test for it, but a green unit test run is not evidence
 of a working audit on every OS. Try it on a disposable VM first.
 
-## Links
+## 🔗 Links
 
-- [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-checkup)
-- [Releases](https://github.com/larskroghdk/packer-plugin-windows-checkup/releases)
-- [Complete control inventory](https://github.com/larskroghdk/packer-plugin-windows-checkup/blob/main/docs/control-inventory.md)
-- [Issues](https://github.com/larskroghdk/packer-plugin-windows-checkup/issues)
-- [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-checkup)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-plugin-windows-checkup/releases)
+- 📖 [Complete control inventory](https://github.com/larskroghdk/packer-plugin-windows-checkup/blob/main/docs/control-inventory.md)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-plugin-windows-checkup/issues)
+- 📘 [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)

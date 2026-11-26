@@ -16,7 +16,7 @@ again on the guest.
 
 <!--more-->
 
-## The problem
+## 💡 The problem
 
 Most image pipelines install their software the same way: a provisioner
 downloads `latest` from a vendor URL and runs it with some silent switches.
@@ -30,7 +30,7 @@ hand, which means someone has to remember to do it.
 I wanted both: current versions without manual work, and an installer that
 is pinned to a hash and a signer before it gets anywhere near the image.
 
-## What it installs
+## 📦 What it installs
 
 | ID | Package | Installer | Server Core |
 | --- | --- | --- | --- |
@@ -46,7 +46,7 @@ declarations come from the vendors' published requirements. The guest must
 be x64; ARM64 and x86 are rejected. Every selected package is checked
 against the detected OS before anything is installed.
 
-## How an install is verified
+## 🔍 How an install is verified
 
 The plugin reads a catalog file, `catalog.json`, on the Packer host. Each
 record pins one version of one package: the vendor URL, the SHA-256, the
@@ -75,7 +75,7 @@ fails with the guest marked as being in an unknown state. Discard that VM.
 The plugin also refuses to downgrade. Pinning a version older than what's
 installed is an error, not a silent downgrade.
 
-## A catalog that updates itself
+## 🔁 A catalog that updates itself
 
 The catalog isn't edited by hand. A scheduled GitHub Actions workflow runs
 every day:
@@ -102,7 +102,7 @@ sure it gets the same bytes the workflow validated. If the vendor replaces
 the file behind the URL, the build fails safely rather than installing
 something else.
 
-## Getting started
+## 🚀 Getting started
 
 The plugin is published on GitHub, so `packer init` can install it. The
 Packer host needs HTTPS access to the vendor download hosts, and the guest
@@ -168,7 +168,7 @@ The repository has a
 with the null builder and a PowerShell runner that builds the plugin and
 runs the template against an existing disposable VM.
 
-## The report
+## 📊 The report
 
 The report is written on the Packer host, also after a failure. For each
 package it records the requested and resolved version, the version before
@@ -182,7 +182,7 @@ $report.packages |
     Select-Object id, previous_version, final_version, status, reboot_required, error
 ```
 
-## Adding a package
+## ➕ Adding a package
 
 An ordinary MSI or EXE needs no code, only a recipe in `packages/<id>.json`:
 the winget ID, the exact signer names, the allowed download hosts, the
@@ -192,7 +192,7 @@ validation scripts can be run locally to check a candidate without
 installing it. Review the signature and the vendor's terms before you add
 one.
 
-## Testing status
+## 🧪 Testing status
 
 The five installers in the catalog were validated on 2026-11-20 for
 SHA-256, Authenticode signer and embedded product version. Go tests cover
@@ -203,10 +203,10 @@ That validates trust, not installation. A full install of every package on
 every supported OS hasn't been recorded yet, so run the example against a
 disposable VM before you put it in a production pipeline.
 
-## Links
+## 🔗 Links
 
-- [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-software)
-- [Releases](https://github.com/larskroghdk/packer-plugin-windows-software/releases)
-- [Vendor and SDK references](https://github.com/larskroghdk/packer-plugin-windows-software/blob/main/docs/sources.md)
-- [Issues](https://github.com/larskroghdk/packer-plugin-windows-software/issues)
-- [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)
+- 📂 [GitHub repository](https://github.com/larskroghdk/packer-plugin-windows-software)
+- 🏷️ [Releases](https://github.com/larskroghdk/packer-plugin-windows-software/releases)
+- 📖 [Vendor and SDK references](https://github.com/larskroghdk/packer-plugin-windows-software/blob/main/docs/sources.md)
+- 🐛 [Issues](https://github.com/larskroghdk/packer-plugin-windows-software/issues)
+- 📘 [HashiCorp Packer documentation](https://developer.hashicorp.com/packer)

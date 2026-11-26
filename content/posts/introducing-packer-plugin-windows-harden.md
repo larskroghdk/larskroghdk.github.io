@@ -16,7 +16,7 @@ release, v0.1.0, is out and installs with `packer init`.
 
 <!--more-->
 
-## The problem with hardening inside a build
+## 💡 The problem with hardening inside a build
 
 Microsoft publishes security baselines for every supported Windows release
 in the Security Compliance Toolkit: GPO backups, a spreadsheet, and a
@@ -35,7 +35,7 @@ to maintain a hand-edited copy with the dangerous settings removed. The
 first moves security out of the image. The second drifts from Microsoft's
 baseline every time a new version ships.
 
-## What it does
+## 🧰 What it does
 
 The plugin registers one provisioner, `windows-harden`. It detects the OS,
 edition, domain membership, the WinRM configuration and the identity of the
@@ -56,7 +56,7 @@ apply that plan for you. If you'd rather not ship an image with deferred
 settings at all, `mode = "strict"` fails the build before any change is
 made.
 
-## Baselines as data
+## 📋 Baselines as data
 
 The baselines aren't hand-maintained. A generator in the repository,
 `cmd/sctimport`, reads the Security Compliance Toolkit zip files and writes
@@ -80,7 +80,7 @@ deferred or skipped. Every current baseline excludes Credential Guard, so
 today it is always `false`. I'd rather report that honestly than call an
 image fully compliant when it isn't.
 
-## How it keeps the session alive
+## 🛟 How it keeps the session alive
 
 The protection rules are specific. A few examples:
 
@@ -108,7 +108,7 @@ After every change set, a new WinRM command must run, and the service,
 listeners, authentication methods and unencrypted setting must be no weaker
 than before. Otherwise the build fails.
 
-## Getting started
+## 🚀 Getting started
 
 The communicator must be `winrm`, with an elevated administrator session.
 The release has binaries for Windows, Linux and macOS, so Packer can run on
@@ -180,7 +180,7 @@ $report.settings |
 something was deferred or skipped) or `non_compliant`, and
 `compliance.reasons` explains why.
 
-## Supported Windows versions
+## 🖥️ Supported Windows versions
 
 | Baseline ID | OS | Microsoft baseline | Settings |
 | --- | --- | --- | --- |
@@ -201,7 +201,7 @@ depends on the edition: 24H2 Home and Pro reached end of support in October
 2026, so 24H2 is now only accepted on Enterprise, Education and IoT
 Enterprise editions.
 
-## Testing and what's next
+## 🧪 Testing and what's next
 
 The baseline model and catalog, the generator's workbook parsing, OS
 classification and the protection and verification logic have Go unit
@@ -215,7 +215,7 @@ the generator rather than hand edits, and releases without a baseline today
 (Windows Server 2016, Windows 10, LTSC) are rejected rather than hardened
 with a baseline that doesn't match.
 
-## Pairs with windows-optimize
+## 🤝 Pairs with windows-optimize
 
 This plugin and
 [packer-plugin-windows-optimize]({{< relref "posts/introducing-packer-plugin-windows-optimize" >}})
